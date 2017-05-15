@@ -130,6 +130,9 @@ const device_desc models[] = {
     { V_CORSAIR, P_ST100, },
     // Misc
     { V_CORSAIR, P_GENERIC_BRAGI_DONGLE, },
+    // Headsets
+    P_VOID_USB_1,
+    P_VOID_USB_2,
 };
 
 const size_t N_MODELS = sizeof(models) / sizeof(device_desc);
@@ -268,6 +271,8 @@ const char* product_str(ushort product){
         return "darkcore";
     if(product == P_ST100)
         return "st100";
+    if(product == P_VOID_USB_1 || product == P_VOID_USB_2)
+        return "void";
     if(product == P_GENERIC_BRAGI_DONGLE)
         return "bragi_dongle";
     return "";
@@ -306,7 +311,9 @@ static const devcmd* get_vtable(usbdevice* kb){
             return &vtable_mouse;
     } else if(IS_MOUSEPAD(vendor, product) || product == P_ST100) {
         return &vtable_mousepad;
-    } else {
+    else if(IS_HEADSET(vendor,product))
+        return &vtable_headset;
+    else {
         if(IS_LEGACY(vendor, product))
             return &vtable_keyboard_legacy;
         else if(IS_WIRELESS(vendor, product))

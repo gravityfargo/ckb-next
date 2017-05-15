@@ -174,6 +174,12 @@
 #define P_ST100              0x0a34
 #define IS_ST100(kb)         ((kb)->vendor == V_CORSAIR && ((kb)->product == P_ST100))
 
+#define P_VOID_USB_1         0x1b29
+#define P_VOID_USB_2         0x1b2a
+#define IS_VOID(kb)((kb)->vendor == V_CORSAIR && ((kb)->product == P_VOID_USB_1 || (kb)->product == P_VOID_USB_2))
+
+#define N_MODELS 39
+extern ushort models[];
 #define P_GENERIC_BRAGI_DONGLE 0x1ba6
 
 extern const size_t N_MODELS;
@@ -304,6 +310,28 @@ const char* product_str(ushort product);
 #define SW_PKT_HAS_NO_WHEEL(kb)                     ((kb)->vendor == V_CORSAIR && ((kb)->product == P_M55_RGB_PRO || (kb)->product == P_KATAR_PRO_XT || (kb)->product == P_KATAR_PRO))
 
 
+/// the medium delay is used after sending a command before waiting for the answer.
+#define DELAY_MEDIUM(kb)     \
+        clock_nanosleep(CLOCK_MONOTONIC, 0, &(struct timespec) {.tv_nsec = ((int) (kb->usbdelay)) * 10000000}, NULL)  // x10 (default: 50ms)
+
+/// The longest delay takes place where something went wrong (eg when resetting the device)
+#define DELAY_LONG(kb)       \
+        clock_nanosleep(CLOCK_MONOTONIC, 0, &(struct timespec) {.tv_nsec = 100000000}, NULL)  // long, fixed 100ms
+
+/// This constant is used to initialize \b kb->usbdelay.
+/// It is used in many places (see macros above) but often also overwritten to the fixed value of 10.
+/// Pure Hacker code.
+
+// Mousepad test
+#define IS_MOUSEPAD(vendor, product)    ((vendor) == (V_CORSAIR) && (product) == (P_POLARIS))
+#define IS_MOUSEPAD_DEV(kb)             IS_MOUSEPAD((kb)->vendor, (kb)->product)
+
+// Headset test
+#define IS_HEADSET(vendor, product)     ((vendor) == (V_CORSAIR) && (product == P_VOID_USB_1 || product == P_VOID_USB_2))
+#define IS_HEADSET_DEV(kb)              IS_HEADSET((kb)->vendor, (kb)->product)
+
+#define USB_DELAY_DEFAULT   5
+        
 /// Start the USB main loop. Returns program exit code when finished
 int usbmain();
 

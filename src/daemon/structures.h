@@ -207,6 +207,7 @@ extern const union devcmd vtable_keyboard_legacy;
 extern const union devcmd vtable_mouse;
 extern const union devcmd vtable_mouse_wireless;
 extern const union devcmd vtable_mousepad;
+extern const union devcmd vtable_headset;
 extern const union devcmd vtable_mouse_legacy;
 extern const union devcmd vtable_bragi_mouse;
 extern const union devcmd vtable_bragi_keyboard;
