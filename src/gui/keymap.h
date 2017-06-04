@@ -70,6 +70,7 @@ public:
         ST100,
         K70MK2,
         STRAFE_MK2,
+        VOID,
         K66,
         M65E,
         M95,

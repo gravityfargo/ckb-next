@@ -596,6 +596,16 @@ static const Key IronclawWirelessKeys[] = {
 #define IRONCLAW_W_WIDTH       52
 #define IRONCLAW_W_HEIGHT      67
 
+// Void
+static const Key VoidKeys[] = {
+    {0, "Logo", "logo", 3, 3, 7, 7, true, false},
+};
+
+#define KEYCOUNT_VOID	(sizeof(VoidKeys) / sizeof(Key))
+
+#define VOID_WIDTH      5
+#define VOID_HEIGHT     5
+
 // Map getter. Each model/layout pair only needs to be constructed once; after that, future KeyMaps can copy the existing maps.
 #define N_MODELS    KeyMap::_MODEL_MAX
 #define N_LAYOUTS   KeyMap::_LAYOUT_MAX
@@ -1383,6 +1393,12 @@ static QHash<QString, Key> getMap(KeyMap::Model model, KeyMap::Layout layout){
         }
         break;
     }
+    case KeyMap::VOID:{
+        for(const Key* key = VoidKeys; key < VoidKeys + KEYCOUNT_VOID; key++){
+            map[key->name] = *key;
+        }
+        break;
+    }
     default:;    // <- stop GCC from complaining
     }
 
@@ -1644,6 +1660,8 @@ KeyMap::Model KeyMap::getModel(const QString& name){
         return K100;
     if(lower == "k65_mini")
         return K65_MINI;
+    if(lower == "void")
+        return VOID;
     return NO_MODEL;
 }
 
@@ -1727,6 +1745,8 @@ QString KeyMap::getModel(KeyMap::Model model){
         return "k100";
     case K65_MINI:
         return "k65_mini";
+    case VOID:
+        return "void";
     default:
         return "";
     }
@@ -1794,6 +1814,8 @@ int KeyMap::modelWidth(Model model){
     case GLAIVEPRO:
     case IRONCLAW_W:
         return M65_WIDTH;
+    case VOID:
+        return VOID_WIDTH;
     default:
         return 0;
     }
@@ -1847,6 +1869,8 @@ int KeyMap::modelHeight(Model model){
         return M65_HEIGHT;
     case IRONCLAW_W:
         return M65_HEIGHT;
+    case VOID:
+        return VOID_HEIGHT;
     default:
         return 0;
     }

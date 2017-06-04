@@ -71,6 +71,7 @@ Kb::Kb(QObject *parent, const QString& path) :
     if (mpath.open(QIODevice::ReadOnly)){
         usbModel = mpath.read(100);
         usbModel = usbModel.remove("Corsair", Qt::CaseInsensitive).remove("Gaming").remove("Keyboard").remove("Mouse").remove("Bootloader").remove("Mechanical").replace("LOW PROFILE", "LP").trimmed();
+        usbModel = usbModel.remove("Corsair").remove("Gaming").remove("Keyboard").remove("Mouse").remove("Bootloader").remove("Headset").remove("USB").trimmed();
         mpath.close();
     }
     if (usbModel == "")
