@@ -131,8 +131,8 @@ const device_desc models[] = {
     // Misc
     { V_CORSAIR, P_GENERIC_BRAGI_DONGLE, },
     // Headsets
-    P_VOID_USB_1,
-    P_VOID_USB_2,
+    { V_CORSAIR, P_VOID_USB_1, },
+    { V_CORSAIR, P_VOID_USB_2, },
 };
 
 const size_t N_MODELS = sizeof(models) / sizeof(device_desc);
